@@ -1,0 +1,13 @@
+services:
+  app:
+    image: ghcr.io/avsk-net/linkflare:latest
+    restart: unless-stopped
+    env_file: /home/deploy/linkflare.env
+    depends_on:
+      - redis
+    volumes:
+      - /home/deploy/data:/app/data
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped

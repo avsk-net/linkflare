@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LinkFlare — Analytics: /{{ link.code }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .meta { color: #94a3b8; font-size: 0.875rem; margin-bottom: 2rem; }
+    .cards { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .card { background: #1e293b; border-radius: 0.75rem; padding: 1.5rem; flex: 1; min-width: 180px; }
+    .card h2 { font-size: 0.75rem; text-transform: uppercase; color: #64748b; margin-bottom: 0.5rem; }
+    .card p { font-size: 2rem; font-weight: 700; color: #38bdf8; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+    .box { background: #1e293b; border-radius: 0.75rem; padding: 1.5rem; }
+    .box h3 { font-size: 0.875rem; color: #94a3b8; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th { text-align: left; color: #64748b; padding: 0.4rem 0; border-bottom: 1px solid #334155; }
+    td { padding: 0.4rem 0; border-bottom: 1px solid #1e293b; color: #cbd5e1; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    canvas { max-height: 260px; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>🔥 /{{ link.code }}</h1>
+  <p class="meta">→ {{ link.original_url }}</p>
+
+  <div class="cards">
+    <div class="card"><h2>Total Clicks</h2><p>{{ link.click_count }}</p></div>
+    <div class="card"><h2>Countries</h2><p>{{ clicks_by_country | length }}</p></div>
+    <div class="card"><h2>Created</h2><p style="font-size:1rem; padding-top:0.4rem">{{ link.created_at.strftime('%Y-%m-%d') }}</p></div>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <h3>Clicks by Country</h3>
+      <canvas id="countryChart"></canvas>
+    </div>
+    <div class="box">
+      <h3>Recent Clicks</h3>
+      <table>
+        <tr><th>Time</th><th>Country</th><th>Referrer</th></tr>
+        {% for click in recent_clicks %}
+        <tr>
+          <td>{{ click.clicked_at.strftime('%m-%d %H:%M') }}</td>
+          <td>{{ click.country or '—' }}</td>
+          <td>{{ click.referrer or '—' }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const labels = {{ clicks_by_country.keys() | list | tojson }};
+    const data   = {{ clicks_by_country.values() | list | tojson }};
+    new Chart(document.getElementById('countryChart'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{ label: 'Clicks', data, backgroundColor: '#38bdf8' }]
+      },
+      options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+  </script>
+</body>
+</html>

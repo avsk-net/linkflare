@@ -8,7 +8,7 @@ WORKDIR /app
 COPY --from=builder /root/.local /home/appuser/.local
 RUN useradd -m appuser
 COPY . .
-RUN chown -R appuser:appuser /app
+RUN mkdir -p /app/data && chown -R appuser:appuser /app
 USER appuser
 ENV PATH=/home/appuser/.local/bin:$PATH
 EXPOSE 8000

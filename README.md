@@ -8,19 +8,13 @@
 
 ---
 
-## Screenshots
-
-> Dashboard · Analytics · API Docs
-
----
-
 ## What It Does
 
-- Shorten any URL and get a short code (e.g. `linkflare.lalonhobekotodine.sbs/Fs9XpJ`)
+- Shorten any URL and get a short code (e.g. `yourdomain.com/anytext`)
 - Every redirect is tracked: timestamp, country (via IP geolocation), referrer, user agent
 - Per-link analytics dashboard with click breakdown by country
 - JWT authentication — register, login, manage your own links
-- Custom short codes support (`/my-brand`)
+- Custom short codes support (`/your-text`)
 - Link expiry with automatic background cleanup
 - Redis-based rate limiting on redirects and link creation
 - Clean single-page dashboard UI — no frameworks, pure HTML/CSS/JS
@@ -37,7 +31,7 @@
 | **Auth** | JWT (python-jose) + bcrypt password hashing (passlib) |
 | **Rate Limiting** | Redis |
 | **Background Jobs** | APScheduler — hourly cleanup of expired links |
-| **Geolocation** | ip-api.com (free, no API key needed) |
+| **Geolocation** | ip-api.com |
 | **Frontend** | Jinja2 templates + vanilla JS + Chart.js |
 | **Containerization** | Docker multi-stage build, non-root user |
 | **CI/CD** | GitHub Actions → GHCR → VPS SSH deploy |
@@ -139,7 +133,7 @@ linkflare/
 
 ## Local Development
 
-**Prerequisites:** Python 3.12+, Redis running locally
+**Prerequisites:** Python 3.12+, Redis
 
 ```bash
 # 1. Clone and enter
@@ -239,31 +233,6 @@ This project deploys automatically on every push to `main` via GitHub Actions:
 | `GHCR_TOKEN` | GitHub PAT with `read:packages` |
 
 **VPS requirements:** Ubuntu, Docker, Nginx, Certbot
-
----
-
-## What I Learned Building This
-
-Compared to [Project 1 — InfraPulse](https://github.com/avsk-net/infra-pulse), this project added:
-
-- **Async SQLAlchemy 2.0** with proper session management and relationship loading
-- **Alembic migrations** — schema versioning for production databases
-- **JWT auth flow** — token creation, validation, dependency injection pattern
-- **Redis rate limiting** — sliding window counter per IP/user
-- **Background scheduling** — APScheduler wired into FastAPI lifespan
-- **IP geolocation** — async HTTP calls to external API with graceful fallback
-- **Debugging Docker networking** — port binding conflicts, iptables chain issues, container user permissions
-- **Production Nginx config** — TLS termination, proxy headers for real IP forwarding
-
----
-
-## Portfolio Series
-
-| Project | Description | Status |
-|---|---|---|
-| [InfraPulse](https://github.com/avsk-net/infra-pulse) | Infrastructure health-check API | ✅ Live |
-| **LinkFlare** | URL shortener with analytics | ✅ Live |
-| Project 2 | *(coming soon)* | 🚧 |
 
 ---
 

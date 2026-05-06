@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
-
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
@@ -26,6 +27,11 @@ app = FastAPI(
 @app.get("/health")
 async def health():
     return {"status": "ok", "environment": settings.environment}
+templates = Jinja2Templates(directory="app/templates")
+
+@app.get("/")
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 app.include_router(auth.router)
 app.include_router(links.router)

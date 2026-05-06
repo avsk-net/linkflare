@@ -1,8 +1,9 @@
 # 🔥 LinkFlare — URL Shortener with Analytics
 
-> A production-grade URL shortener built as part of my SRE portfolio series. Shorten any URL, track every click with country, referrer, and user agent data, and visualize it all on a per-link analytics dashboard.
+> A URL shortener to Shorten any URL, track every click with country, referrer, and user agent data, and visualize it all on a per-link analytics dashboard.
 
 **Live:** [https://linkflare.lalonhobekotodine.sbs](https://linkflare.lalonhobekotodine.sbs)
+
 **API Docs:** [https://linkflare.lalonhobekotodine.sbs/docs](https://linkflare.lalonhobekotodine.sbs/docs)
 
 ---

@@ -28,12 +28,10 @@ async def redirect_to_url(
 
     if not link:
         raise HTTPException(status_code=404, detail="Short link not found")
-
     if link.expires_at:
         expires = link.expires_at.replace(tzinfo=timezone.utc) if link.expires_at.tzinfo is None else link.expires_at
-    if expires < datetime.now(timezone.utc):
-        raise HTTPException(status_code=410, detail="This link has expired")
-
+        if expires < datetime.now(timezone.utc):
+            raise HTTPException(status_code=410, detail="This link has expired")
     country = await get_country(client_ip)
 
     click = Click(

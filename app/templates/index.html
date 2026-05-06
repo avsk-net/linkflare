@@ -10,18 +10,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #080b10;
-      --surface:   #0d1117;
-      --card:      #111820;
-      --border:    #1e2d3d;
-      --accent:    #00d4ff;
-      --accent2:   #ff6b35;
-      --green:     #00ff88;
-      --red:       #ff4757;
-      --text:      #cdd9e5;
-      --muted:     #546e7a;
-      --white:     #f0f6fc;
-      --glow:      0 0 20px rgba(0,212,255,0.15);
+      --bg:       #111827;
+      --surface:  #1a2332;
+      --card:     #1e2d3d;
+      --border:   #2d4a66;
+      --accent:   #38bdf8;
+      --accent2:  #fb923c;
+      --green:    #34d399;
+      --red:      #f87171;
+      --text:     #e2e8f0;
+      --muted:    #94a3b8;
+      --white:    #f8fafc;
+      --glow:     0 0 24px rgba(56,189,248,0.2);
     }
 
     html { scroll-behavior: smooth; }
@@ -34,29 +34,27 @@
       overflow-x: hidden;
     }
 
-    /* Grid background */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ── Layout ── */
     .app { position: relative; z-index: 1; }
 
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.25rem 2rem;
+      padding: 1rem 2rem;
       border-bottom: 1px solid var(--border);
-      background: rgba(8,11,16,0.9);
+      background: rgba(17,24,39,0.92);
       backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
@@ -66,80 +64,68 @@
     .logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       color: var(--white);
-      letter-spacing: -0.5px;
     }
 
     .logo span { color: var(--accent); }
-
-    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .header-right { display: flex; align-items: center; gap: 0.75rem; }
 
     .user-badge {
       display: none;
       align-items: center;
       gap: 0.5rem;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--muted);
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
-      padding: 0.4rem 0.75rem;
-      border-radius: 6px;
+      padding: 0.35rem 0.7rem;
+      border-radius: 20px;
     }
 
     .user-badge.visible { display: flex; }
-    .user-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .user-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
 
     .btn {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
       border-radius: 6px;
       border: 1px solid transparent;
       cursor: pointer;
       transition: all 0.15s;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
 
-    .btn-ghost {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--muted);
-    }
+    .btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: rgba(56,189,248,0.05); }
 
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-    .btn-primary {
-      background: var(--accent);
-      color: var(--bg);
-      border-color: var(--accent);
-    }
-
-    .btn-primary:hover {
-      background: #00b8d9;
-      box-shadow: var(--glow);
-    }
+    .btn-primary { background: var(--accent); color: #0f172a; font-weight: 700; }
+    .btn-primary:hover { background: #7dd3fc; box-shadow: var(--glow); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .btn-danger {
       background: transparent;
-      border-color: var(--red);
+      border: 1px solid rgba(248,113,113,0.4);
       color: var(--red);
-      font-size: 0.7rem;
-      padding: 0.3rem 0.6rem;
+      font-size: 0.68rem;
+      padding: 0.3rem 0.55rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.15s;
     }
 
-    .btn-danger:hover { background: var(--red); color: white; }
+    .btn-danger:hover { background: var(--red); color: white; border-color: var(--red); }
 
-    /* ── Pages ── */
+    /* Pages — KEY FIX: auth page uses flex when active */
     .page { display: none; }
     .page.active { display: block; }
+    #auth-page.active { display: flex; }
 
-    /* ── Auth Page ── */
     #auth-page {
-      min-height: calc(100vh - 65px);
-      display: flex;
+      min-height: calc(100vh - 62px);
       align-items: center;
       justify-content: center;
       padding: 2rem;
@@ -147,238 +133,166 @@
 
     .auth-box {
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
+      animation: fadeUp 0.3s ease forwards;
     }
 
-    .auth-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--white);
-      margin-bottom: 0.4rem;
-    }
+    .auth-hero { text-align: center; margin-bottom: 1.75rem; }
+    .auth-hero-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .auth-title { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--white); margin-bottom: 0.3rem; }
+    .auth-sub { color: var(--muted); font-size: 0.78rem; }
 
-    .auth-sub {
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin-bottom: 2rem;
+    .auth-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
     }
 
     .auth-tabs {
       display: flex;
-      border: 1px solid var(--border);
+      background: var(--surface);
       border-radius: 8px;
-      overflow: hidden;
+      padding: 3px;
       margin-bottom: 1.5rem;
+      gap: 3px;
     }
 
     .auth-tab {
       flex: 1;
-      padding: 0.6rem;
+      padding: 0.5rem;
       text-align: center;
       cursor: pointer;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--muted);
       background: transparent;
       border: none;
+      border-radius: 6px;
       font-family: 'JetBrains Mono', monospace;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-weight: 600;
       transition: all 0.15s;
     }
 
-    .auth-tab.active {
-      background: var(--accent);
-      color: var(--bg);
-      font-weight: 700;
-    }
+    .auth-tab.active { background: var(--accent); color: #0f172a; }
 
     .form-group { margin-bottom: 1rem; }
 
     label {
       display: block;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 0.4rem;
+      font-weight: 500;
     }
 
-    input, select {
+    input {
       width: 100%;
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
       padding: 0.65rem 0.85rem;
-      border-radius: 6px;
+      border-radius: 7px;
       outline: none;
-      transition: border-color 0.15s;
+      transition: all 0.15s;
     }
 
-    input:focus, select:focus { border-color: var(--accent); }
-    input::placeholder { color: var(--muted); opacity: 0.6; }
+    input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(56,189,248,0.1); }
+    input::placeholder { color: var(--muted); opacity: 0.5; }
 
-    .btn-block { width: 100%; padding: 0.75rem; font-size: 0.85rem; }
+    .btn-block { width: 100%; padding: 0.7rem; font-size: 0.82rem; margin-top: 0.5rem; }
 
-    .auth-error {
-      background: rgba(255,71,87,0.1);
-      border: 1px solid rgba(255,71,87,0.3);
-      color: var(--red);
-      border-radius: 6px;
-      padding: 0.65rem 0.85rem;
-      font-size: 0.78rem;
+    .auth-msg {
+      border-radius: 7px;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.75rem;
       margin-bottom: 1rem;
       display: none;
     }
 
-    .auth-error.visible { display: block; }
+    .auth-msg.error { display: block; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: var(--red); }
+    .auth-msg.success { display: block; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--green); }
 
-    /* ── Dashboard ── */
-    #dashboard-page { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    /* Dashboard */
+    #dashboard-page { padding: 1.5rem 2rem 3rem; max-width: 1100px; margin: 0 auto; }
 
-    .dash-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+    .dash-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem; padding-top: 0.5rem; }
+    .dash-greeting { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--white); }
+    .dash-sub { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
 
-    .dash-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .dash-title span { color: var(--muted); font-size: 0.9rem; font-weight: 400; }
-
-    /* Stats row */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
 
     .stat-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 1.2rem;
+      padding: 1.1rem 1.25rem;
       position: relative;
       overflow: hidden;
+      transition: border-color 0.2s;
     }
 
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
-    }
+    .stat-card:hover { border-color: var(--accent); }
+    .stat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); opacity: 0.6; }
+    .stat-card:nth-child(2)::after { background: var(--accent2); }
+    .stat-card:nth-child(3)::after { background: var(--green); }
 
-    .stat-card:nth-child(2)::before { background: var(--accent2); }
-    .stat-card:nth-child(3)::before { background: var(--green); }
+    .stat-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+    .stat-value { font-family: 'Syne', sans-serif; font-size: 1.75rem; font-weight: 800; color: var(--white); line-height: 1; }
 
-    .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-    .stat-value { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--white); }
+    .create-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .section-title { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; font-weight: 600; }
 
-    /* Create link */
-    .create-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
+    .create-row { display: flex; gap: 0.75rem; align-items: flex-end; flex-wrap: wrap; }
+    .create-row .form-group { margin-bottom: 0; }
+    .create-row .fg-url { flex: 2; min-width: 220px; }
+    .create-row .fg-code { flex: 1; min-width: 140px; }
 
-    .create-card h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 1rem;
-    }
-
-    .create-row {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      align-items: flex-end;
-    }
-
-    .create-row .form-group { margin-bottom: 0; flex: 1; min-width: 200px; }
-
-    .create-success {
-      background: rgba(0,255,136,0.08);
-      border: 1px solid rgba(0,255,136,0.25);
-      border-radius: 8px;
-      padding: 0.85rem 1rem;
-      margin-top: 1rem;
+    .create-success-bar {
       display: none;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 0.75rem;
+      background: rgba(52,211,153,0.08);
+      border: 1px solid rgba(52,211,153,0.25);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-top: 1rem;
       flex-wrap: wrap;
     }
 
-    .create-success.visible { display: flex; }
+    .create-success-bar.visible { display: flex; }
+    .short-link-result { font-size: 0.82rem; color: var(--green); }
+    .short-link-result a { color: var(--green); text-decoration: none; font-weight: 600; }
+    .short-link-result a:hover { text-decoration: underline; }
+    .action-btns { display: flex; gap: 0.5rem; }
 
-    .short-url-display {
-      font-size: 0.85rem;
-      color: var(--green);
-    }
-
-    .short-url-display a { color: var(--green); text-decoration: none; }
-    .short-url-display a:hover { text-decoration: underline; }
-
-    .copy-btn {
+    .sm-btn {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      padding: 0.3rem 0.7rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
       border-radius: 5px;
-      border: 1px solid var(--green);
-      background: transparent;
-      color: var(--green);
       cursor: pointer;
       transition: all 0.15s;
-      text-transform: uppercase;
     }
 
-    .copy-btn:hover { background: var(--green); color: var(--bg); }
-    .copy-btn.copied { background: var(--green); color: var(--bg); }
+    .sm-btn-green { border: 1px solid var(--green); background: transparent; color: var(--green); }
+    .sm-btn-green:hover, .sm-btn-green.copied { background: var(--green); color: #0f172a; }
+    .sm-btn-close { border: 1px solid var(--border); background: transparent; color: var(--muted); }
+    .sm-btn-close:hover { border-color: var(--red); color: var(--red); }
 
-    /* Links table */
-    .links-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .links-card-header {
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .links-card-header h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--white);
-    }
+    .links-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .links-header { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border); }
+    .links-header .section-title { margin-bottom: 0; }
 
     .refresh-btn {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      padding: 0.3rem 0.6rem;
+      font-size: 0.68rem;
+      padding: 0.28rem 0.6rem;
       border-radius: 5px;
       border: 1px solid var(--border);
       background: transparent;
@@ -390,167 +304,93 @@
     .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     table { width: 100%; border-collapse: collapse; }
-
-    th {
-      text-align: left;
-      font-size: 0.68rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 0.75rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-      font-weight: 500;
-    }
-
-    td {
-      padding: 0.9rem 1.5rem;
-      font-size: 0.82rem;
-      border-bottom: 1px solid rgba(30,45,61,0.5);
-      vertical-align: middle;
-    }
-
+    th { text-align: left; font-size: 0.63rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; padding: 0.65rem 1.25rem; border-bottom: 1px solid var(--border); font-weight: 600; }
+    td { padding: 0.85rem 1.25rem; font-size: 0.8rem; border-bottom: 1px solid rgba(45,74,102,0.4); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(56,189,248,0.03); }
 
-    tr:hover td { background: rgba(0,212,255,0.03); }
-
-    .code-cell {
-      font-weight: 700;
+    .code-pill {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 5px;
+      padding: 0.2rem 0.55rem;
       color: var(--accent);
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: all 0.15s;
     }
 
-    .url-cell {
-      color: var(--muted);
-      max-width: 200px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    .code-pill:hover { background: rgba(56,189,248,0.18); }
+    .url-cell { color: var(--muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .clicks-cell { color: var(--white); font-weight: 600; }
+    .td-actions { display: flex; gap: 0.4rem; align-items: center; }
 
-    .actions-cell { display: flex; gap: 0.5rem; align-items: center; }
-
-    .view-btn {
+    .act-btn {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      padding: 0.3rem 0.6rem;
+      font-size: 0.65rem;
+      padding: 0.28rem 0.55rem;
       border-radius: 5px;
       border: 1px solid var(--border);
       background: transparent;
       color: var(--text);
       cursor: pointer;
       transition: all 0.15s;
-      text-decoration: none;
-      display: inline-block;
     }
 
-    .view-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .act-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .act-btn.copy:hover, .act-btn.copy.copied { border-color: var(--green); color: var(--green); }
 
-    .empty-state {
-      padding: 3rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
+    .empty-state { padding: 2.5rem; text-align: center; color: var(--muted); font-size: 0.8rem; }
+    .empty-icon { font-size: 2rem; margin-bottom: 0.6rem; }
 
-    .empty-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    /* Analytics */
+    #analytics-page { padding: 1.5rem 2rem 3rem; max-width: 1100px; margin: 0 auto; }
 
-    /* ── Analytics Page ── */
-    #analytics-page { padding: 2rem; max-width: 1200px; margin: 0 auto; }
-
-    .back-btn {
+    .back-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.78rem;
+      gap: 0.4rem;
+      font-size: 0.75rem;
       color: var(--muted);
       background: none;
       border: none;
       cursor: pointer;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
+      padding: 0;
       transition: color 0.15s;
     }
 
-    .back-btn:hover { color: var(--accent); }
+    .back-link:hover { color: var(--accent); }
 
-    .analytics-header { margin-bottom: 2rem; }
+    .ana-hero { margin-bottom: 1.5rem; }
+    .ana-code-title { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--white); }
+    .ana-code-title span { color: var(--accent); }
+    .ana-orig-url { font-size: 0.76rem; color: var(--muted); margin-top: 0.2rem; word-break: break-all; }
 
-    .analytics-code {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--white);
-    }
+    .ana-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .ana-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 
-    .analytics-code span { color: var(--accent); }
+    .ana-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+    .ana-card-title { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; font-weight: 600; }
 
-    .analytics-url {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.25rem;
-      word-break: break-all;
-    }
+    .country-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(45,74,102,0.4); font-size: 0.78rem; }
+    .country-item:last-child { border-bottom: none; }
+    .country-name { color: var(--text); min-width: 80px; }
+    .country-bar-bg { flex: 1; height: 5px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+    .country-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #7dd3fc); border-radius: 3px; transition: width 0.6s ease; }
+    .country-cnt { color: var(--accent); font-weight: 700; min-width: 24px; text-align: right; }
 
-    .analytics-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
+    .click-entry { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(45,74,102,0.4); font-size: 0.72rem; }
+    .click-entry:last-child { border-bottom: none; }
+    .click-entry.hdr { color: var(--muted); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .click-t { color: var(--muted); }
+    .click-c { color: var(--text); }
+    .click-r { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    @media (max-width: 700px) {
-      .analytics-grid { grid-template-columns: 1fr; }
-    }
-
-    .analytics-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem;
-    }
-
-    .analytics-card h3 {
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 1rem;
-    }
-
-    .country-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.4rem 0;
-      font-size: 0.8rem;
-      border-bottom: 1px solid rgba(30,45,61,0.5);
-    }
-
-    .country-row:last-child { border-bottom: none; }
-    .country-name { color: var(--text); }
-    .country-count { color: var(--accent); font-weight: 700; }
-
-    .country-bar-wrap { flex: 1; margin: 0 0.75rem; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-    .country-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
-
-    .click-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      font-size: 0.75rem;
-      padding: 0.45rem 0;
-      border-bottom: 1px solid rgba(30,45,61,0.5);
-      gap: 0.5rem;
-    }
-
-    .click-row:last-child { border-bottom: none; }
-    .click-time { color: var(--muted); }
-    .click-country { color: var(--text); }
-    .click-ref { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-    .click-row-header { color: var(--muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
-
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 1.5rem;
@@ -559,53 +399,49 @@
       border: 1px solid var(--border);
       border-left: 3px solid var(--green);
       color: var(--text);
-      padding: 0.75rem 1rem;
+      padding: 0.7rem 1rem;
       border-radius: 8px;
-      font-size: 0.78rem;
-      transform: translateY(100px);
+      font-size: 0.75rem;
+      transform: translateY(80px);
       opacity: 0;
-      transition: all 0.25s;
+      transition: all 0.22s;
       z-index: 999;
     }
 
     .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.error { border-left-color: var(--red); }
+    .toast.err { border-left-color: var(--red); }
 
-    /* Loading */
     .spinner {
       display: inline-block;
-      width: 12px; height: 12px;
-      border: 2px solid rgba(0,212,255,0.2);
+      width: 11px; height: 11px;
+      border: 2px solid rgba(56,189,248,0.2);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
-      margin-right: 0.4rem;
       vertical-align: middle;
+      margin-right: 0.3rem;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Fade in */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-up { animation: fadeUp 0.3s ease forwards; }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      header { padding: 1rem; }
-      #dashboard-page, #analytics-page { padding: 1rem; }
+    @media (max-width: 640px) {
+      header { padding: 0.85rem 1rem; }
+      #dashboard-page, #analytics-page { padding: 1rem 1rem 2rem; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
       .create-row { flex-direction: column; }
-      th:nth-child(3), td:nth-child(3) { display: none; }
+      .create-row .fg-url, .create-row .fg-code { min-width: 100%; }
+      .create-row .btn { width: 100%; }
+      th:nth-child(4), td:nth-child(4) { display: none; }
+      .ana-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 <div class="app">
+
   <header>
-    <div class="logo">Link<span>Flare</span></div>
+    <div class="logo">Link<span>Flare</span> 🔥</div>
     <div class="header-right">
       <div class="user-badge" id="user-badge">
         <div class="user-dot"></div>
@@ -615,42 +451,45 @@
     </div>
   </header>
 
-  <!-- Auth Page -->
-  <div class="page active" id="auth-page">
-    <div class="auth-box fade-up">
-      <div class="auth-title">🔥 LinkFlare</div>
-      <div class="auth-sub">// shorten urls. track every click.</div>
-
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
-        <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+  <!-- Auth -->
+  <div class="page" id="auth-page">
+    <div class="auth-box">
+      <div class="auth-hero">
+        <div class="auth-hero-icon">🔥</div>
+        <div class="auth-title">LinkFlare</div>
+        <div class="auth-sub">Shorten URLs. Track every click.</div>
       </div>
-
-      <div id="auth-error" class="auth-error"></div>
-
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="auth-email" placeholder="you@example.com" />
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+          <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+        </div>
+        <div class="auth-msg" id="auth-msg"></div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="auth-password" placeholder="••••••••"
+            onkeydown="if(event.key==='Enter') submitAuth()" />
+        </div>
+        <button class="btn btn-primary btn-block" id="auth-btn" onclick="submitAuth()">Login</button>
       </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="auth-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')submitAuth()" />
-      </div>
-      <button class="btn btn-primary btn-block" id="auth-btn" onclick="submitAuth()">Login</button>
     </div>
   </div>
 
-  <!-- Dashboard Page -->
+  <!-- Dashboard -->
   <div class="page" id="dashboard-page">
     <div class="dash-header">
       <div>
-        <div class="dash-title">Dashboard <span id="dash-subtitle"></span></div>
+        <div class="dash-greeting" id="dash-greeting">Dashboard</div>
+        <div class="dash-sub" id="dash-sub"></div>
       </div>
-      <button class="btn btn-ghost" onclick="showCreateFocus()">+ New Link</button>
+      <button class="btn btn-primary" onclick="focusCreateUrl()">+ Shorten URL</button>
     </div>
 
-    <!-- Stats -->
-    <div class="stats-row" id="stats-row">
+    <div class="stats-row">
       <div class="stat-card">
         <div class="stat-label">Total Links</div>
         <div class="stat-value" id="stat-links">—</div>
@@ -661,85 +500,75 @@
       </div>
       <div class="stat-card">
         <div class="stat-label">Top Link</div>
-        <div class="stat-value" id="stat-top" style="font-size:1.2rem">—</div>
+        <div class="stat-value" id="stat-top" style="font-size:1.1rem;padding-top:0.3rem">—</div>
       </div>
     </div>
 
-    <!-- Create -->
-    <div class="create-card" id="create-card">
-      <h2>// shorten a url</h2>
+    <div class="create-card">
+      <div class="section-title">Shorten a URL</div>
       <div class="create-row">
-        <div class="form-group" style="flex:2">
-          <label>Long URL</label>
-          <input type="url" id="new-url" placeholder="https://example.com/very/long/url" />
+        <div class="form-group fg-url">
+          <label>Paste your long URL</label>
+          <input type="url" id="new-url" placeholder="https://example.com/very/long/path" />
         </div>
-        <div class="form-group">
-          <label>Custom Code <span style="color:var(--muted);font-size:0.65rem">(optional)</span></label>
-          <input type="text" id="new-code" placeholder="my-link" />
+        <div class="form-group fg-code">
+          <label>Custom code <span style="opacity:0.5;font-size:0.6rem">(optional)</span></label>
+          <input type="text" id="new-code" placeholder="my-brand" />
         </div>
-        <button class="btn btn-primary" id="create-btn" onclick="createLink()" style="white-space:nowrap;align-self:flex-end;margin-bottom:0">Shorten →</button>
+        <button class="btn btn-primary" id="create-btn" onclick="createLink()" style="white-space:nowrap">Shorten →</button>
       </div>
-      <div class="create-success" id="create-success">
-        <div class="short-url-display">
-          ✓ <a id="created-url" href="#" target="_blank"></a>
-        </div>
-        <div style="display:flex;gap:0.5rem">
-          <button class="copy-btn" id="copy-btn" onclick="copyShortUrl()">Copy</button>
-          <button class="copy-btn" style="border-color:var(--accent);color:var(--accent)" onclick="hideCreateSuccess()">✕</button>
+      <div class="create-success-bar" id="create-success">
+        <div class="short-link-result">✓ <a id="created-url" href="#" target="_blank"></a></div>
+        <div class="action-btns">
+          <button class="sm-btn sm-btn-green" id="copy-btn" onclick="copyShortUrl()">Copy</button>
+          <button class="sm-btn sm-btn-close" onclick="hideSuccess()">✕</button>
         </div>
       </div>
     </div>
 
-    <!-- Links Table -->
     <div class="links-card">
-      <div class="links-card-header">
-        <h2>// your links</h2>
+      <div class="links-header">
+        <div class="section-title">Your Links</div>
         <button class="refresh-btn" onclick="loadLinks()">↻ Refresh</button>
       </div>
       <div id="links-container">
-        <div class="empty-state">
-          <div class="spinner"></div> Loading...
-        </div>
+        <div class="empty-state"><span class="spinner"></span> Loading your links...</div>
       </div>
     </div>
   </div>
 
-  <!-- Analytics Page -->
+  <!-- Analytics -->
   <div class="page" id="analytics-page">
-    <button class="back-btn" onclick="showDashboard()">← back to dashboard</button>
-    <div class="analytics-header">
-      <div class="analytics-code">/<span id="ana-code"></span></div>
-      <div class="analytics-url" id="ana-url"></div>
+    <button class="back-link" onclick="showDashboard()">← Back to Dashboard</button>
+    <div class="ana-hero">
+      <div class="ana-code-title">/<span id="ana-code"></span></div>
+      <div class="ana-orig-url" id="ana-url"></div>
     </div>
-
-    <div class="stats-row">
+    <div class="ana-stats">
       <div class="stat-card">
         <div class="stat-label">Total Clicks</div>
         <div class="stat-value" id="ana-total">—</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Countries</div>
+        <div class="stat-label">Unique Countries</div>
         <div class="stat-value" id="ana-countries">—</div>
       </div>
     </div>
-
-    <div class="analytics-grid">
-      <div class="analytics-card">
-        <h3>Clicks by Country</h3>
+    <div class="ana-grid">
+      <div class="ana-card">
+        <div class="ana-card-title">Clicks by Country</div>
         <div id="ana-country-list"></div>
       </div>
-      <div class="analytics-card">
-        <h3>Recent Clicks</h3>
-        <div class="click-row click-row-header">
-          <div>Time</div><div>Country</div><div>Referrer</div>
-        </div>
+      <div class="ana-card">
+        <div class="ana-card-title">Recent Clicks</div>
+        <div class="click-entry hdr"><div>Time</div><div>Country</div><div>Source</div></div>
         <div id="ana-recent-list"></div>
       </div>
     </div>
   </div>
+
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -747,39 +576,60 @@
   let token = localStorage.getItem('lf_token');
   let userEmail = localStorage.getItem('lf_email');
   let lastShortUrl = '';
-  let allLinks = [];
 
-  // ── Init ──────────────────────────────────────────────────────────
-  function init() {
+  // Boot
+  (function init() {
     if (token) {
       showDashboard();
+    } else {
+      showPage('auth-page');
     }
+  })();
+
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
   }
 
-  // ── Auth ──────────────────────────────────────────────────────────
+  function showDashboard() {
+    showPage('dashboard-page');
+    const h = new Date().getHours();
+    const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+    const name = userEmail ? userEmail.split('@')[0] : '';
+    document.getElementById('dash-greeting').textContent = `${g}${name ? ', ' + name : ''} 👋`;
+    document.getElementById('dash-sub').textContent = new Date().toLocaleDateString('en-US', {weekday:'long',month:'long',day:'numeric'});
+    document.getElementById('user-badge').classList.add('visible');
+    document.getElementById('user-email-display').textContent = userEmail || '';
+    document.getElementById('logout-btn').style.display = '';
+    loadLinks();
+  }
+
+  // Auth
   function switchTab(tab) {
     document.getElementById('tab-login').classList.toggle('active', tab === 'login');
     document.getElementById('tab-register').classList.toggle('active', tab === 'register');
     document.getElementById('auth-btn').textContent = tab === 'login' ? 'Login' : 'Create Account';
-    document.getElementById('auth-error').classList.remove('visible');
     document.getElementById('auth-btn').dataset.tab = tab;
+    const m = document.getElementById('auth-msg');
+    m.className = 'auth-msg'; m.textContent = '';
   }
 
   async function submitAuth() {
     const tab = document.getElementById('auth-btn').dataset.tab || 'login';
     const email = document.getElementById('auth-email').value.trim();
     const password = document.getElementById('auth-password').value;
-    const errEl = document.getElementById('auth-error');
-    errEl.classList.remove('visible');
+    const msgEl = document.getElementById('auth-msg');
+    msgEl.className = 'auth-msg'; msgEl.textContent = '';
 
     if (!email || !password) {
-      errEl.textContent = 'Email and password required.';
-      errEl.classList.add('visible');
+      msgEl.textContent = 'Please fill in both fields.';
+      msgEl.className = 'auth-msg error';
       return;
     }
 
     const btn = document.getElementById('auth-btn');
-    btn.innerHTML = '<span class="spinner"></span>...';
+    btn.innerHTML = '<span class="spinner"></span>Please wait...';
     btn.disabled = true;
 
     try {
@@ -789,10 +639,9 @@
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({email, password})
         });
-        if (!r.ok) {
-          const d = await r.json();
-          throw new Error(d.detail || 'Registration failed');
-        }
+        if (!r.ok) { const d = await r.json(); throw new Error(d.detail || 'Registration failed'); }
+        msgEl.textContent = 'Account created! Signing you in...';
+        msgEl.className = 'auth-msg success';
       }
 
       const r = await fetch(`${BASE}/auth/login`, {
@@ -801,10 +650,7 @@
         body: JSON.stringify({email, password})
       });
 
-      if (!r.ok) {
-        const d = await r.json();
-        throw new Error(d.detail || 'Invalid credentials');
-      }
+      if (!r.ok) { const d = await r.json(); throw new Error(d.detail || 'Invalid email or password'); }
 
       const data = await r.json();
       token = data.access_token;
@@ -812,141 +658,93 @@
       localStorage.setItem('lf_token', token);
       localStorage.setItem('lf_email', email);
       showDashboard();
+
     } catch(e) {
-      errEl.textContent = e.message;
-      errEl.classList.add('visible');
+      msgEl.textContent = e.message;
+      msgEl.className = 'auth-msg error';
     } finally {
-      btn.innerHTML = tab === 'login' ? 'Login' : 'Create Account';
+      btn.textContent = tab === 'login' ? 'Login' : 'Create Account';
       btn.disabled = false;
     }
   }
 
   function logout() {
-    token = null;
-    userEmail = null;
+    token = null; userEmail = null;
     localStorage.removeItem('lf_token');
     localStorage.removeItem('lf_email');
-    showPage('auth-page');
     document.getElementById('user-badge').classList.remove('visible');
     document.getElementById('logout-btn').style.display = 'none';
+    showPage('auth-page');
   }
 
-  // ── Pages ─────────────────────────────────────────────────────────
-  function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
-
-  function showDashboard() {
-    showPage('dashboard-page');
-    document.getElementById('user-badge').classList.add('visible');
-    document.getElementById('user-email-display').textContent = userEmail || '';
-    document.getElementById('logout-btn').style.display = '';
-    document.getElementById('dash-subtitle').textContent = `// ${userEmail}`;
-    loadLinks();
-  }
-
-  function showCreateFocus() {
-    document.getElementById('new-url').focus();
-  }
-
-  // ── Links ─────────────────────────────────────────────────────────
+  // API
   async function api(path, opts = {}) {
     const res = await fetch(`${BASE}${path}`, {
       ...opts,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        ...(opts.headers || {})
-      }
+      headers: {'Content-Type':'application/json', 'Authorization':`Bearer ${token}`, ...(opts.headers||{})}
     });
     if (res.status === 401) { logout(); return null; }
     return res;
   }
 
+  // Links
   async function loadLinks() {
-    document.getElementById('links-container').innerHTML = '<div class="empty-state"><span class="spinner"></span> Loading...</div>';
+    document.getElementById('links-container').innerHTML =
+      '<div class="empty-state"><span class="spinner"></span> Loading...</div>';
     const res = await api('/links/');
     if (!res) return;
-    allLinks = await res.json();
+    const links = await res.json();
 
-    // Update stats
-    const totalClicks = allLinks.reduce((s, l) => s + l.click_count, 0);
-    document.getElementById('stat-links').textContent = allLinks.length;
+    const totalClicks = links.reduce((s,l) => s + l.click_count, 0);
+    document.getElementById('stat-links').textContent = links.length;
     document.getElementById('stat-clicks').textContent = totalClicks;
-    const top = allLinks.sort((a,b) => b.click_count - a.click_count)[0];
+    const top = [...links].sort((a,b) => b.click_count - a.click_count)[0];
     document.getElementById('stat-top').textContent = top ? `/${top.code}` : '—';
 
-    renderLinks(allLinks);
-  }
-
-  function renderLinks(links) {
-    const container = document.getElementById('links-container');
     if (!links.length) {
-      container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔗</div>No links yet. Create your first short link above.</div>';
+      document.getElementById('links-container').innerHTML =
+        '<div class="empty-state"><div class="empty-icon">🔗</div>No links yet — paste a URL above to get started.</div>';
       return;
     }
 
     const sorted = [...links].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
-
-    container.innerHTML = `
+    document.getElementById('links-container').innerHTML = `
       <table>
-        <thead>
+        <thead><tr>
+          <th>Short Link</th><th>Destination</th><th>Clicks</th><th>Created</th><th>Actions</th>
+        </tr></thead>
+        <tbody>${sorted.map(l => `
           <tr>
-            <th>Code</th>
-            <th>Original URL</th>
-            <th>Clicks</th>
-            <th>Created</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${sorted.map(link => `
-            <tr>
-              <td class="code-cell">
-                <a href="${link.short_url}" target="_blank" style="color:var(--accent);text-decoration:none">
-                  /${link.code}
-                </a>
-              </td>
-              <td class="url-cell" title="${link.original_url}">${link.original_url}</td>
-              <td class="clicks-cell">${link.click_count}</td>
-              <td style="color:var(--muted);font-size:0.75rem">${formatDate(link.created_at)}</td>
-              <td class="actions-cell">
-                <button class="view-btn" onclick="showAnalytics('${link.code}')">Analytics</button>
-                <button class="copy-btn" onclick="copyText('${link.short_url}', this)">Copy</button>
-                <button class="btn btn-danger" onclick="deleteLink('${link.code}')">✕</button>
-              </td>
-            </tr>
-          `).join('')}
+            <td><a class="code-pill" href="${l.short_url}" target="_blank">/${l.code}</a></td>
+            <td class="url-cell" title="${l.original_url}">${l.original_url}</td>
+            <td style="font-weight:700;color:var(--white)">${l.click_count}</td>
+            <td style="color:var(--muted);font-size:0.72rem">${fmtDate(l.created_at)}</td>
+            <td class="td-actions">
+              <button class="act-btn" onclick="showAnalytics('${l.code}')">Analytics</button>
+              <button class="act-btn copy" onclick="copyText('${l.short_url}', this)">Copy</button>
+              <button class="btn-danger" onclick="deleteLink('${l.code}')">✕</button>
+            </td>
+          </tr>`).join('')}
         </tbody>
-      </table>
-    `;
+      </table>`;
   }
 
   async function createLink() {
     const url = document.getElementById('new-url').value.trim();
     const code = document.getElementById('new-code').value.trim();
-    if (!url) { showToast('Enter a URL first', true); return; }
+    if (!url) { showToast('Please enter a URL', true); return; }
 
     const btn = document.getElementById('create-btn');
     btn.innerHTML = '<span class="spinner"></span>';
     btn.disabled = true;
 
-    const body = { original_url: url };
-    if (code) body.custom_code = code;
-
     try {
-      const res = await api('/links/', {
-        method: 'POST',
-        body: JSON.stringify(body)
-      });
+      const body = {original_url: url};
+      if (code) body.custom_code = code;
+      const res = await api('/links/', {method:'POST', body:JSON.stringify(body)});
       if (!res) return;
       const data = await res.json();
-
-      if (!res.ok) {
-        showToast(data.detail || 'Failed to create link', true);
-        return;
-      }
+      if (!res.ok) { showToast(data.detail || 'Failed', true); return; }
 
       lastShortUrl = data.short_url;
       document.getElementById('created-url').textContent = data.short_url;
@@ -957,6 +755,7 @@
       document.getElementById('copy-btn').textContent = 'Copy';
       document.getElementById('copy-btn').classList.remove('copied');
       loadLinks();
+      showToast('Short link created! ✓');
     } finally {
       btn.textContent = 'Shorten →';
       btn.disabled = false;
@@ -964,26 +763,29 @@
   }
 
   async function deleteLink(code) {
-    if (!confirm(`Delete /${code}? This cannot be undone.`)) return;
-    const res = await api(`/links/${code}`, { method: 'DELETE' });
-    if (res && res.ok) {
-      showToast(`/${code} deleted`);
-      loadLinks();
-    }
+    if (!confirm(`Delete /${code}? All click data will be lost.`)) return;
+    const res = await api(`/links/${code}`, {method:'DELETE'});
+    if (res && res.ok) { showToast(`/${code} deleted`); loadLinks(); }
   }
 
-  function hideCreateSuccess() {
-    document.getElementById('create-success').classList.remove('visible');
+  function focusCreateUrl() {
+    const el = document.getElementById('new-url');
+    el.focus();
+    el.scrollIntoView({behavior:'smooth', block:'center'});
   }
 
-  // ── Analytics ─────────────────────────────────────────────────────
+  function hideSuccess() { document.getElementById('create-success').classList.remove('visible'); }
+  function copyShortUrl() { copyText(lastShortUrl, document.getElementById('copy-btn')); }
+
+  // Analytics
   async function showAnalytics(code) {
     showPage('analytics-page');
     document.getElementById('ana-code').textContent = code;
     document.getElementById('ana-url').textContent = 'Loading...';
     document.getElementById('ana-total').textContent = '—';
     document.getElementById('ana-countries').textContent = '—';
-    document.getElementById('ana-country-list').innerHTML = '<div style="color:var(--muted);font-size:0.8rem">Loading...</div>';
+    document.getElementById('ana-country-list').innerHTML =
+      '<div style="color:var(--muted);font-size:0.78rem"><span class="spinner"></span> Loading...</div>';
     document.getElementById('ana-recent-list').innerHTML = '';
 
     const res = await api(`/analytics/${code}/json`);
@@ -994,33 +796,30 @@
     document.getElementById('ana-total').textContent = data.total_clicks;
     document.getElementById('ana-countries').textContent = Object.keys(data.clicks_by_country).length;
 
-    // Country bars
-    const maxClicks = Math.max(...Object.values(data.clicks_by_country), 1);
-    document.getElementById('ana-country-list').innerHTML = Object.entries(data.clicks_by_country)
-      .sort((a,b) => b[1]-a[1])
-      .map(([country, count]) => `
-        <div class="country-row">
-          <span class="country-name">${country}</span>
-          <div class="country-bar-wrap"><div class="country-bar" style="width:${(count/maxClicks*100)}%"></div></div>
-          <span class="country-count">${count}</span>
-        </div>
-      `).join('') || '<div style="color:var(--muted);font-size:0.8rem">No data yet</div>';
+    const maxC = Math.max(...Object.values(data.clicks_by_country), 1);
+    document.getElementById('ana-country-list').innerHTML =
+      Object.entries(data.clicks_by_country).sort((a,b)=>b[1]-a[1]).map(([c,n]) => `
+        <div class="country-item">
+          <span class="country-name">${c}</span>
+          <div class="country-bar-bg"><div class="country-bar-fill" style="width:${(n/maxC*100).toFixed(1)}%"></div></div>
+          <span class="country-cnt">${n}</span>
+        </div>`).join('') ||
+      '<div style="color:var(--muted);font-size:0.78rem;padding:0.5rem 0">No clicks yet</div>';
 
-    // Recent clicks
-    document.getElementById('ana-recent-list').innerHTML = data.recent_clicks.map(c => `
-      <div class="click-row">
-        <span class="click-time">${formatTime(c.clicked_at)}</span>
-        <span class="click-country">${c.country || '—'}</span>
-        <span class="click-ref">${c.referrer ? new URL(c.referrer).hostname : 'direct'}</span>
-      </div>
-    `).join('') || '<div style="color:var(--muted);font-size:0.8rem;padding:0.5rem 0">No clicks yet</div>';
+    document.getElementById('ana-recent-list').innerHTML =
+      data.recent_clicks.map(c => {
+        let ref = 'direct';
+        try { ref = c.referrer ? new URL(c.referrer).hostname : 'direct'; } catch(e){}
+        return `<div class="click-entry">
+          <span class="click-t">${fmtTime(c.clicked_at)}</span>
+          <span class="click-c">${c.country||'—'}</span>
+          <span class="click-r">${ref}</span>
+        </div>`;
+      }).join('') ||
+      '<div style="color:var(--muted);font-size:0.78rem;padding:0.5rem 0">No clicks yet</div>';
   }
 
-  // ── Utilities ─────────────────────────────────────────────────────
-  function copyShortUrl() {
-    copyText(lastShortUrl, document.getElementById('copy-btn'));
-  }
-
+  // Utils
   function copyText(text, btn) {
     navigator.clipboard.writeText(text).then(() => {
       if (btn) {
@@ -1029,32 +828,27 @@
         btn.classList.add('copied');
         setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
       }
-      showToast('Copied to clipboard');
+      showToast('Copied ✓');
     });
   }
 
-  function showToast(msg, isError = false) {
+  function showToast(msg, isErr=false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.classList.toggle('error', isError);
+    t.className = 'toast' + (isErr ? ' err' : '');
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  function formatDate(iso) {
-    return new Date(iso).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+  function fmtDate(iso) {
+    return new Date(iso + (iso.endsWith('Z')?'':'Z')).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
   }
 
-  function formatTime(iso) {
-    return new Date(iso).toLocaleString('en-GB', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  function fmtTime(iso) {
+    return new Date(iso + (iso.endsWith('Z')?'':'Z')).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
   }
 
-  // Enter key on URL input
-  document.getElementById('new-url').addEventListener('keydown', e => {
-    if (e.key === 'Enter') createLink();
-  });
-
-  init();
+  document.getElementById('new-url').addEventListener('keydown', e => { if(e.key==='Enter') createLink(); });
 </script>
 </body>
 </html>
